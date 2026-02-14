@@ -179,7 +179,7 @@ const updateTagsList = () => {
   const tagsContainer = document.getElementById('tagListContainer');
   if (!tagsContainer) return;
   
-  // Generate new tag items HTML
+  // Generate tag items HTML (without select-all checkbox)
   const tagItemsHtml = orderedTags.map(tag => `
     <div class="tag-item" draggable="true" data-tag-id="${tag.id}" 
          style="display: flex; align-items: center; padding: 0.5rem; background: white; border: 1px solid #ddd; border-radius: 4px; cursor: move; user-select: none;">
@@ -196,15 +196,12 @@ const updateTagsList = () => {
     </div>
   `).join('');
   
-  // Remove all existing tag items
+  // Remove only tag-item divs, keep select-all checkbox
   const existingTagItems = Array.from(tagsContainer.querySelectorAll('.tag-item'));
   existingTagItems.forEach(item => item.remove());
   
-  // Insert new tag items at the end (after "Select All Tags" checkbox)
-  const selectAllCheckboxParent = tagsContainer.querySelector('#selectAllTagsCheckbox')?.parentElement?.parentElement;
-  if (selectAllCheckboxParent) {
-    selectAllCheckboxParent.insertAdjacentHTML('afterend', tagItemsHtml);
-  }
+  // Add tag items at the end
+  tagsContainer.insertAdjacentHTML('beforeend', tagItemsHtml);
   
   // Re-attach tag event listeners
   attachTagEventListeners();
