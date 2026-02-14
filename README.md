@@ -31,10 +31,9 @@ Supported detail fields:
 
 ## Screenshots
 
-Add one or two screenshots in `docs/images/` and update the links below.
-
 ![Main UI](docs/images/screenshot-main.png)
 ![PDF export settings](docs/images/screenshot-settings.png)
+![PDF](docs/images/screenshot-pdf.png)
 
 ## Configuration
 
