@@ -1,114 +1,99 @@
-# ChurchTools Extension Boilerplate
+# Song Export Extension for ChurchTools
 
-This project provides a boilerplate for building your own extension for [ChurchTools](https://www.church.tools).
+Export songs from ChurchTools to a clean, configurable PDF. This extension supports rich filtering, drag-and-drop ordering, per-column formatting, and reusable settings.
 
-## Getting Started
+## Features
 
-### Prerequisites
+- Export songs to PDF with custom columns and formatting
+- Choose up to 4 columns (Name plus up to 3 details)
+- Drag-and-drop ordering for tags and details
+- Alphabetical grouping per section
+- Section headers with styling options
+- Settings export/import (JSON)
+- Responsive layout for desktop and mobile
 
--   Node.js (version compatible with the project)
--   npm or yarn
+Supported detail fields:
+`name`, `author`, `category`, `sourceReference`, `ccli`, `copyright`,
+`tags`, `source`, `key`, `tempo`, `duration`, `description`
 
-### Installation
+## Requirements
 
-1. Clone the repository
-2. Install dependencies:
-    ```bash
-    npm install
-    ```
+- ChurchTools admin access (to install extensions)
+- Node.js and npm (for local development)
 
-### Optional: Using Dev Container
+## Quick Start
 
-This project includes a dev container configuration. If you use VS Code with the "Dev Containers" extension, you can:
+1. Install the extension in ChurchTools (Admin -> Extensions -> Upload ZIP).
+2. Open the extension from the ChurchTools menu.
+3. Select categories and tags.
+4. Choose the PDF columns and formatting.
+5. Export the PDF.
 
-1. Clone the repository
-2. Open it in VS Code
-3. Click the Remote Indicator in the bottom-left corner of VS Code status bar
-4. Select "Reopen in Container"
+## Screenshots
 
-The container includes the tools mentioned in the prerequisites pre-installed and also runs `npm install` on startup.
+Add one or two screenshots in `docs/images/` and update the links below.
+
+![Main UI](docs/images/screenshot-main.png)
+![PDF export settings](docs/images/screenshot-settings.png)
 
 ## Configuration
 
-Copy `.env-example` to `.env` and fill in your data.
+Copy `.env-example` to `.env` and fill in your values:
 
-In the `.env` file, configure the necessary constants for your project. This file is included in `.gitignore` to prevent sensitive data from being committed to version control.
+```dotenv
+VITE_KEY=songs_export
+VITE_BASE_URL=https://xyz.church.tools
+VITE_USERNAME=your_username
+VITE_PASSWORD=your_password
+```
 
-## Development and Deployment
+Do not commit `.env`. It is listed in `.gitignore` by default.
 
-### Development Server
+The menu name shown to users is configured in ChurchTools Admin (not in code).
 
-Start a development server with hot-reload:
+## Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the dev server:
 
 ```bash
 npm run dev
 ```
 
-> **Note:** For local development, make sure to configure CORS in your ChurchTools
-> instance to allow requests from your local development server
-> (typically `http://localhost:5173`).
-> This can be done in the ChurchTools admin settings under:
-> "System Settings" > "Integrations" > "API" > "Cross-Origin Resource Sharing"
->
-> If login works in Chrome but not in Safari, the issue is usually that Safari has stricter cookie handling:
-> - Safari blocks `Secure; SameSite=None` cookies on `http://localhost` (Chrome allows them in dev).
-> - Safari also blocks cookies if the API is on another domain (third‑party cookies).
->
-> **Fix:**
-> 1. Use a Vite proxy so API calls go through your local server (`/api → https://xyz.church.tools`). This makes cookies look first‑party.
-> 2. Run your dev server with **HTTPS**. You can generate a local trusted certificate with [mkcert](https://github.com/FiloSottile/mkcert).
->
-> With proxy + HTTPS, Safari will accept and store cookies just like Chrome.
+If the API calls are blocked by CORS, allow your local dev origin in ChurchTools
+Admin -> System Settings -> Integrations -> API -> CORS.
 
-### Building for Production
+Safari note: If login works in Chrome but not in Safari, it is usually due to
+cookie handling. Use a Vite proxy so API calls go through your local server
+(`/api -> https://xyz.church.tools`) and consider HTTPS for local dev.
 
-To create a production build:
+## Build and Deploy
+
+Build production assets:
 
 ```bash
 npm run build
 ```
 
-### Preview Production Build
-
-To preview the production build locally:
-
-```bash
-npm run preview
-```
-
-### Deployment
-
-To build and package your extension for deployment:
+Package the extension:
 
 ```bash
 npm run deploy
 ```
 
-This command will:
+The ZIP file is created in the `releases/` folder.
 
-1. Build the project
-2. Package it using the `scripts/package.js` script
+## Notes
 
-You can find the package in the `releases` directory.
-
-## API
-
-Following endpoints are available. Permissions are possible per route. Types are documented in `ct-types.d.ts` (CustomModuleCreate, CustomModuleDataCategoryCreate, CustomModuleDataValueCreate)
-
-GET `/custommodules` get all extensions  
-GET `/custommodules/{extensionkey}` get an extensions by its key  
-GET `/custommodules/{moduleId}` get an extension by its ID
-
-GET `/custommodules/{moduleId}/customdatacategories`  
-POST `/custommodules/{moduleId}/customdatacategories`  
-PUT `/custommodules/{moduleId}/customdatacategories/{dataCategoryId}`  
-DELETE `/custommodules/{moduleId}/customdatacategories/{dataCategoryId}`
-
-GET `/custommodules/{moduleId}/customdatacategories/{dataCategoryId}/customdatavalues`  
-POST `/custommodules/{moduleId}/customdatacategories/{dataCategoryId}/customdatavalues`  
-PUT `/custommodules/{moduleId}/customdatacategories/{dataCategoryId}/customdatavalues/{valueId}`  
-DELETE `/custommodules/{moduleId}/customdatacategories/{dataCategoryId}/customdatavalues/{valueId}`
+- Maximum of 4 columns (Name plus 3 details).
+- Default arrangement is used when a song has multiple arrangements.
+- Settings export/import lets you switch between PDF templates quickly.
 
 ## Support
 
-For questions about the ChurchTools API, visit the [Forum](https://forum.church.tools).
+For ChurchTools API questions, see the forum: https://forum.church.tools

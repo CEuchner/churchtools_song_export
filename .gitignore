@@ -7,7 +7,16 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Environment & Credentials
 .env
+.env.local
+
+# Private/Working Documentation (internal only)
+NOTES.md
+DEPLOYMENT.md
+DOCUMENTATION_PLAN.md
+SESSION_STATUS.md
+
 node_modules
 dist
 dist-ssr
@@ -18,9 +27,21 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+.localized
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Testing
+coverage/
+test-results/
+playwright-report/
+
+# IDE local settings (optional - uncomment if needed)
+# .vscode/settings.json
+# .vscode/extensions.json.bak
+
 releases
