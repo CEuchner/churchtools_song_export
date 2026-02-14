@@ -6031,6 +6031,7 @@ export type Song = {
      */
     note?: string;
     shouldPractice?: boolean;
+    tags?: Array<Tag>;
 };
 
 /**

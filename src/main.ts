@@ -1,4 +1,4 @@
-import type { Person, Song, Tag, EventMasterData } from './utils/ct-types';
+import type { Person, Song } from './utils/ct-types';
 import { churchtoolsClient } from '@churchtools/churchtools-client';
 import { generatePDF } from './utils/pdfExport';
 import { getDefaultArrangement } from './utils/songDetails';
@@ -40,7 +40,7 @@ async function loadAllSongs(): Promise<Array<Song>> {
   
   while (hasMore) {
     const response = await churchtoolsClient.get(`/songs?include=tags&limit=${limit}&page=${page}`);
-    const songs = Array.isArray(response) ? response : (response?.data || []);
+    const songs = Array.isArray(response) ? response : ((response as any)?.data || []);
     
     if (songs.length > 0) {
       allSongs.push(...songs);
@@ -74,7 +74,7 @@ console.log('Raw API response (tags):', tagsResponse);
 console.log('Raw API response (masterdata):', masterDataResponse);
 
 // Extract categories directly from masterdata
-const categories = (masterDataResponse?.songCategories || [])
+const categories = ((masterDataResponse as any)?.songCategories || [])
   .filter((cat: any) => cat.id !== undefined && cat.name)
   .sort((a: any, b: any) => a.name.localeCompare(b.name));
 console.log('Categories:', categories);
@@ -86,7 +86,7 @@ const tags = (Array.isArray(tagsResponse) ? tagsResponse : [])
 console.log('Tags:', tags);
 
 // Track selected categories (initially all selected)
-const selectedCategoryIds = new Set<number>(categories.map(c => c.id));
+const selectedCategoryIds = new Set<number>(categories.map((c: any) => c.id));
 
 // Track selected tags for export structure with order (initially all selected)
 // Using array instead of Set to maintain order for drag-and-drop
@@ -351,7 +351,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <h2 style="margin-top: 0;">Filter by Category</h2>
         <div class="sidebar-box" style="border: 1px solid #ccc; border-radius: 4px; padding: 1rem; background: #f8f9fa; margin-bottom: 2rem;">
           ${categories.length > 0
-            ? categories.map(cat => `
+            ? categories.map((cat: any) => `
               <div style="margin-bottom: 0.5rem;">
                 <label style="display: flex; align-items: center; cursor: pointer;">
                   <input type="checkbox" class="category-checkbox" data-category-id="${cat.id}" checked 

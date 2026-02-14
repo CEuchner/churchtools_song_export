@@ -100,14 +100,14 @@ describe('applySettings', () => {
       detailFormatting: [
         ['tempo', { bold: false, italic: true, fontSize: 14 }],
         ['unknown', { bold: true, italic: true, fontSize: 12 }]
-      ],
+      ] as Array<[string, DetailFormatting]>,
       alphabeticalGroupingPerContext: [
         ['allSongs', true],
         ['tag_2', true]
-      ],
+      ] as Array<[string, boolean]>,
       includeAllSongsList: false,
       headerStyleOptions: {
-        alignment: 'center',
+        alignment: 'center' as const,
         fontSize: 18,
         bold: false,
         italic: true,

@@ -47,8 +47,23 @@ if (!fs.existsSync(distDir)) {
 }
 
 try {
-    // Create ZIP archive using system zip command
-    const zipCommand = `cd "${rootDir}" && zip -r "${archivePath}" dist/ -x "*.map" "*.DS_Store"`;
+    // Remove old archive if exists
+    if (fs.existsSync(archivePath)) {
+        fs.unlinkSync(archivePath);
+    }
+    
+    // Create ZIP archive using PowerShell on Windows or zip command on Unix
+    const isWindows = process.platform === 'win32';
+    let zipCommand;
+    
+    if (isWindows) {
+        // Use PowerShell Compress-Archive
+        zipCommand = `powershell -Command "Compress-Archive -Path '${distDir}\\*' -DestinationPath '${archivePath}' -Force"`;
+    } else {
+        // Use standard zip command on Unix/Linux/Mac
+        zipCommand = `cd "${rootDir}" && zip -r "${archivePath}" dist/ -x "*.map" "*.DS_Store"`;
+    }
+    
     execSync(zipCommand, { stdio: 'inherit' });
     
     console.log('✅ Package created successfully!');
